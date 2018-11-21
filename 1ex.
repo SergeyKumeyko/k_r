@@ -1,0 +1,69 @@
+#include <stdio.h>
+#include <stdlib.h>
+//.....................................//
+int create_array1 (int ** array , int * n);
+int find_max (int ** array , int * n , int * max);
+int find_min (int ** array , int * n , int * min );
+int create_array2 (int ** array1 , int ** array2 , int * max ,int * min , int * n );
+//.....................................//
+int main ()
+{
+    int * id = NULL ;
+    int * elem = NULL ;
+    int n = 0 ;
+    int max = 0 ;
+    int min = 0 ;
+    create_array1 (&id , &n);
+    find_max ( &id , &n , &max );
+    min = max ;
+    find_min ( &id , &n , &min );
+    create_array2 (&id , &elem , &max , &min , &n);
+    for (int i = 0 ; i < (max-min)+1 ; i ++)
+    {
+        printf("%d %d\n" ,(i+min) , *(elem + i) );
+    }
+    free(elem);
+    free(id);
+    return 0 ;
+}
+//...................................//
+int create_array1 (int ** array , int * n)
+{
+    scanf("%d", n);
+    *array = (int *) calloc ( n+1 , sizeof(int) );
+    for ( int i = 0 ; i < *n ; i ++)
+    {
+        scanf ( "%*llu%d%*llu" ,  (*array+i) );
+    }
+    return 0 ;
+}
+//...................................//
+int find_max (int ** array , int * n , int * max)
+{
+    for (int i = 0; i < *n ; i++)
+    {
+        if ( *(*array+i) > *max )
+            *max = *(*array+i);
+    }
+    return 0 ;
+}
+//.....................................//
+int find_min (int ** array , int * n , int * min )
+{
+    for (int i = 0; i < *n; i++)
+    {
+        if ( *(*array+i) < *min )
+            *min = *(*array + i);
+    }
+    return 0 ;
+}
+//.......................................//
+int create_array2 (int ** array1 , int ** array2 , int * max ,int * min , int * n )
+{   int size = *max - *min;
+    *array2 = (int *) calloc (size+2 , sizeof (int));
+    for ( int i = 0 ; i < *n ; i++)
+    {
+        *(*array2 + (*(*array1 + i) - *min)) = *(*array2 + (*(*array1 + i) - *min)) + 1;
+    }
+    return 0 ;
+}
